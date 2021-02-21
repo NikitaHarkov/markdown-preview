@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+const getLocalStorage = () => {
+  let markdown = localStorage.getItem('markdown');
+  if (markdown) {
+    return JSON.parse(markdown);
+  } else {
+    return '## markdown preview';
+  }
+};
+
 function App() {
-  const [markdown, setMarkdown] = useState('## markdown preview');
+  const [markdown, setMarkdown] = useState(getLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem('markdown', JSON.stringify(markdown));
+  }, [markdown]);
+
   return (
     <main>
       <section className='markdown'>
